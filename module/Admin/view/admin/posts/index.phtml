@@ -1,0 +1,67 @@
+<?php 
+    $role = $this->session()->offsetGet('user')->getRole();
+?>
+
+<button class="btn btn-success" onclick="location.href='/admin/posts/save'">Novo Post</button>
+
+<table class="table">
+    <thead>
+    <tr>
+       <b> <td>Id</td><td>Título</td><td>Mini Texto</td><td>Post Completo</td><td>Ativo</td><td>Data Post.</td><td>Editar</td><?php if ($role == "ADMIN") echo "<td>Excluir</td>"; ?></tr></b>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($posts as $post) {
+        ?>
+        <tr>
+            <td>
+                <?php echo $post->getId(); ?>
+            </td>
+            <td>
+                <?php echo $post->getTitulo(); ?>
+            </td>
+            <td>
+                <?php echo $post->getMintext(); ?>
+            </td>
+            <td>
+                <?php echo $post->getPostComp(); ?>
+            </td>
+            <td>
+                <?php echo $post->getAtivo(); ?>
+            </td>
+            <td>
+                <?php echo $post->getDataPost(); ?>
+               
+            </td>
+            <td>
+                <a class="btn btn-success" href="/admin/posts/save/id/<?php echo $post->getId(); ?>">Editar</a>
+            </td>
+            <?php
+                if ($role == "ADMIN") {
+            ?>
+            <td>
+                <a class="btn btn-danger" href="/admin/posts/delete/id/<?php echo $post->getId(); ?>">Excluir</a>
+            </td>
+            <?php } ?>
+        </tr>
+    <?php }
+    ?>
+    </tbody>
+
+</table>
+
+<?php
+
+echo $this->paginationControl(
+    // o objeto de paginacao
+    $posts,
+    //tipos de paginacao (elastic, all, sliding, Juping) mais em zend/paginator exemple-pagination-controls
+    'sliding',
+    // a parcial usada para gerar o html para a paginacao
+    'admin/partials/paginator/paginator.phtml',
+    //a rota utulizada na paginacao
+    array(
+        'route' => 'posts'
+    )
+);
+?>

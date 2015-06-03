@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    
+    <div class="col-md-12"> 
+      
+      <div class="panel">
+        <div class="panel-body">     
+
+     <?php foreach($posts as $post) { ?>
+      <div class="row">    
+            <br>
+            <div class="col-md-2 col-sm-3 text-center">
+              <a class="story-img" href="#"><img src="/img/postdefault.jpg" style="width:100px;height:100px" class="img-circle"></a>
+            </div>
+            <div class="col-md-10 col-sm-9">
+              <h3><?php echo $post->getTitulo(); ?></h3>
+              <div class="row">
+                <div class="col-xs-9">
+                  <p><?php echo $post->getMinText(); ?></p>
+                  <p class="lead"><a class="btn btn-default" href="/admin/exibirpost/index/id/<?php echo $post->getId(); ?>">Visualizar</a></p>
+                  <p class="pull-right"><span class="label label-default">keyword</span> <span class="label label-default">tag</span> <span class="label label-default">post</span></p>
+                  <ul class="list-inline"><li><i>Ultima Edição:</i> <?php echo $post->getDataPost(); ?></li><li><a href="/admin/exibirpost/index/id/<?php echo $post->getId(); ?>"><i class="glyphicon glyphicon-comment"></i> <?php echo count($post->getComentarios()); ?> Comentários</a></li></ul>
+                  </div>
+                <div class="col-xs-3"></div>
+              </div>
+              <br><br>
+            </div>
+          </div>
+          <hr>
+
+    <?php } ?>       
+          
+        </div>
+      </div>
+                                      
+    </div><!--/col-12-->
+  </div>
+</div>
+</hr>
+<?php
+
+echo $this->paginationControl(
+    // o objeto de paginacao
+    $posts,
+    //tipos de paginacao (elastic, all, sliding, Juping) mais em zend/paginator exemple-pagination-controls
+    'sliding',
+    // a parcial usada para gerar o html para a paginacao
+    'admin/partials/paginator/paginator.phtml',
+    //a rota utulizada na paginacao
+    array(
+        'route' => 'index'
+    )
+);
+?>

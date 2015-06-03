@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    
+    <div class="col-md-12"> 
+      
+      <div class="panel">
+        <div class="panel-body">     
+
+     <?php foreach($pesquisas as $pesquisa) { ?>
+      <div class="row">    
+            <br>
+            <div class="col-md-2 col-sm-3 text-center">
+              <a class="story-img" href="#"><img src="/img/postdefault.jpg" style="width:100px;height:100px" class="img-circle"></a>
+            </div>
+            <div class="col-md-10 col-sm-9">
+              <h3><?php echo $pesquisa->getTitulo(); ?></h3>
+              <div class="row">
+                <div class="col-xs-9">
+                  <p><?php echo $pesquisa->getMinText(); ?></p>
+                  <p class="lead"><a class="btn btn-default" href="/admin/exibirpost/index/id/<?php echo $pesquisa->getId(); ?>">Visualizar</a></p>
+                  <p class="pull-right"><span class="label label-default">keyword</span> <span class="label label-default">tag</span> <span class="label label-default">pesquisa</span></p>
+                  <ul class="list-inline"><li><i>Ultima Edição:</i><?php echo $pesquisa->getDataPost(); ?></li><li><a href="/admin/exibirpost/index/id/<?php echo $pesquisa->getId(); ?>"><i class="glyphicon glyphicon-comment"></i> <?php echo count($pesquisa->getComentarios()); ?> Comentários</a></li></ul>
+                  </div>
+                  </div>
+                <div class="col-xs-3"></div>
+              </div>
+              <br><br>
+            </div>
+          <hr>
+
+    <?php } ?>       
+          
+        </div>
+      </div>
+                                      
+    </div><!--/col-12-->
+  </div>
+</div>
+</hr>
+<?php
+
+echo $this->paginationControl(
+    // o objeto de paginacao
+    $pesquisas,
+    //tipos de paginacao (elastic, all, sliding, Juping) mais em zend/paginator exemple-pagination-controls
+    'sliding',
+    // a parcial usada para gerar o html para a paginacao
+    'admin/partials/paginator/paginator.phtml',
+    //a rota utulizada na paginacao
+    array(
+        'route' => 'pesquisas'
+    )
+);
+?>

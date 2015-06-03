@@ -1,0 +1,169 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('Blog Nosso')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        //->prependStylesheet($this->basePath('css/navbarfooter.css'))
+                        ->prependStylesheet($this->basePath('css/style.css'))
+                        ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+                        ->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath('js/bootstrap.min.js'))
+            ->prependFile($this->basePath('js/jquery.min.js'))
+            ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath('js/html5shiv.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php echo $this->translate('Blog Nosso') ?></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="<?php echo $this->url('home') ?>"><?php echo $this->translate('Home') ?></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <?php
+                                $session = $this->session()->offsetGet('user');
+                                if ($session) {
+                            ?>                    
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span></span>
+                                Gerência: <?php echo strtolower($session->getRole()); echo " ".ucfirst(strtolower($session->getNome())); ?> <strong class="caret"></strong>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <?php
+                                    if ($session->getRole() == "ADMIN") {
+                                ?>        
+                                <li><a <a href="/admin/usuarios/index"><span class="glyphicon glyphicon-user"></span> Usuários</a></li>
+                                <li><a <a href="/admin/posts/index"><span class="glyphicon glyphicon-file"></span> Posts</a></li>
+                                <li><a <a href="/admin/comentarios/index"><span class="glyphicon glyphicon-list-alt"></span> Comentários</a></li>
+                                <li class="divider"></li>          
+                                <li><a href="/admin/logout"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+                            <?php
+                                    } //do if ($session->getRole() == "ADMIN")
+                                    else {
+                            ?>
+                                <li><a <a href="/admin/posts/index"><span class="glyphicon glyphicon-file"></span> Posts</a></li>
+                                <li class="divider"></li>          
+                                <li><a href="/admin/logout"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+                            <?php
+                                    } //do else, no caso eh editor
+                                } // do if ($session)
+                            ?>          
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="col-sm-3 col-md-3 pull-right">
+                        <form  method="POST" action="/main/pesquisas/index/" class="navbar-form" role="pesquisa">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Pesquisar posts" name="pesquisa" id="pesquisa">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>   
+                </div><!--/.nav-collapse -->    
+            </div>
+        </nav>
+        <div class="container">
+            <!-- Msg Success -->
+
+            <?php if ($this->flashMessenger()->getSuccessMessages()) { ?>
+                <div class="alert-success">
+                    <?php
+                    foreach ($this->flashMessenger()->getSuccessMessages() as $msg) {
+                        echo $msg;
+                    }
+                    ?>
+
+                </div>
+            <?php } ?>
+            <!-- Msg Error -->
+
+            <?php if ($this->flashMessenger()->getErrorMessages()) { ?>
+                <div class="alert-danger">
+                    <?php
+                    foreach ($this->flashMessenger()->getErrorMessages() as $msg) {
+                        echo $msg;
+                    }
+                    ?>
+                </div>
+            <?php } ?>
+
+            <!-- Msg Warning -->
+
+            <?php if ($this->flashMessenger()->getInfoMessages()) { ?>
+                <div class="alert-warning">
+                    <?php
+                    foreach ($this->flashMessenger()->getInfoMessages() as $msg) {
+                        echo $msg;
+                    }
+                    ?>
+                </div>
+            <?php } ?>
+            
+            <?php echo $this->content; ?>
+            <hr>
+
+<!-- Footer editado -->
+<div class="container" id="footer">
+  <div class="row">
+    <div class="col col-sm-12">
+      
+      <h1>Siga-nos</h1>
+      <div class="btn-group">
+       <a class="btn btn-twitter btn-lg" href="#"><i class="icon-twitter icon-large"></i> Twitter</a>
+       <a class="btn btn-facebook btn-lg" href="#"><i class="icon-facebook icon-large"></i> Facebook</a>
+       <a class="btn btn-google-plus btn-lg" href="#"><i class="icon-google-plus icon-large"></i> Google+</a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <ul class="list-inline">
+          <li><i class="icon-facebook icon-2x"></i></li>
+          <li><i class="icon-twitter icon-2x"></i></li>
+          <li><i class="icon-google-plus icon-2x"></i></li>
+          <li><i class="icon-pinterest icon-2x"></i></li>
+        </ul>
+        
+      </div>
+      <div class="col-sm-6">
+          <p class="pull-right">Desenvolvido <i class="icon-heart-empty"></i> por <a href="#">Josemar e Leandro</a></p>      
+      </div>
+    </div>
+  </div>
+</footer>
+        </div> <!-- /container -->
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

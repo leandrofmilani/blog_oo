@@ -1,0 +1,52 @@
+<button class="btn btn-success" onclick="location.href='/admin/usuarios/save'">Novo usuario</button>
+
+<table class="table">
+    <thead>
+    <tr>
+       <b> <td>Id</td><td>Nome</td><td>E-mail</td><td>Data Nasc</td></tr></b>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($usuarios as $usuario) {
+        ?>
+        <tr>
+            <td>
+                <?php echo $usuario->getId(); ?>
+            </td>
+            <td>
+                <?php echo $usuario->getNome(); ?>
+            </td>
+            <td>
+                <?php echo $usuario->getEmail(); ?>
+            </td>
+              <td>
+                <?php echo $usuario->getDataNasc(); ?>
+            </td>
+            <td>
+                <a class="btn btn-success" href="/admin/usuarios/save/id/<?php echo $usuario->getId(); ?>">Editar</a>
+            </td>
+            <td>
+                <a class="btn btn-danger" href="/admin/usuarios/delete/id/<?php echo $usuario->getId(); ?>">Excluir</a>
+            </td>
+        </tr>
+    <?php }
+    ?>
+    </tbody>
+
+</table>
+
+<?php
+
+echo $this->paginationControl(
+    // o objeto de paginacao
+    $usuarios,
+    //tipos de paginacao (elastic, all, sliding, Juping) mais em zend/paginator exemple-pagination-controls
+    'sliding',
+    // a parcial usada para gerar o html para a paginacao
+    'admin/partials/paginator/paginator.phtml',
+    //a rota utulizada na paginacao
+    array(
+        'route' => 'usuarios'
+    )
+);
+?>
